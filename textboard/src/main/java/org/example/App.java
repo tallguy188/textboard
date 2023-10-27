@@ -38,28 +38,7 @@ public class App {
            }
 
            else if (cmd.startsWith("수정")) {
-               String s = cmd.replace("수정?id=","");
-               int modifyId = Integer.parseInt(s);
-               Quote quote = null;
-               for(Quote q : quotes) {
-                   if(q.id == modifyId) {
-                       quote = q;
-                       break;
-                   }
-               }
-               String prevComment = quote.comment;
-               String prevAuthor = quote.author;
-
-               System.out.println("명언(기존) : " + prevComment);
-               System.out.print("명언 : ");
-               String modiComment = sc.nextLine();
-               System.out.println("작가(기존) : " + prevAuthor);
-               System.out.print("작가 : ");
-               String modiAuthor = sc.nextLine();
-               quote.comment = modiComment;
-               quote.author  = modiAuthor;
-
-
+              actionModify(cmd);
             }
         }
     }
@@ -88,10 +67,14 @@ public class App {
 
     void actionDelete(String cmd){
 
-        String s = cmd.replace("삭제?id=", "");
-        int deleteId = Integer.parseInt(s);
         boolean found = false;
 
+        int deleteId = getParamAsInt(cmd,"id",0);
+
+        if (deleteId == 0) {
+            System.out.println("id를 정확하게 입력해주세요.");
+            return;
+        }
         for (int i = 0; i< quotes.size(); i++) {
             Quote quote = quotes.get(i);
             if(quote.id == deleteId) {
@@ -105,8 +88,64 @@ public class App {
         if (!found){
             System.out.println(deleteId + "번 명언은 존재하지 않습니다.");
         }
+    }
+
+
+    void actionModify(String cmd) {
+        int modifyId = getParamAsInt(cmd,"id",0);
+        if(modifyId == 0) {
+            System.out.println("id를 정확하게 입력해주세요.");
+        }
+        Quote quote = null;
+        for(Quote q : quotes) {
+            if(q.id == modifyId) {
+                quote = q;
+                break;
+            }
+        }
+        String prevComment = quote.comment;
+        String prevAuthor = quote.author;
+
+        System.out.println("명언(기존) : " + prevComment);
+        System.out.print("명언 : ");
+        String modiComment = sc.nextLine();
+        System.out.println("작가(기존) : " + prevAuthor);
+        System.out.print("작가 : ");
+        String modiAuthor = sc.nextLine();
+        quote.comment = modiComment;
+        quote.author  = modiAuthor;
 
 
     }
 
+    int getParamAsInt(String cmd, String paramName, int defaultValue){
+
+        String[] cmdBits = cmd.split("\\?",2);
+        String queryString = cmdBits[1];
+
+        String[] queryStringBits = queryString.split("&");
+
+
+        for(int i =0; i<queryStringBits.length;i++){
+            String queryParamStr = queryStringBits[i];
+
+            String [] queryParamStrBits = queryParamStr.split("=",2);
+
+            String _paramName = queryParamStrBits[0];
+            String paramValue = queryParamStrBits[1];
+
+            if (_paramName.equals(paramName)) {
+                try{   // 문제 x
+                    return Integer.parseInt(paramValue);
+                }
+                catch (NumberFormatException e) {  // 문제 O
+                    return defaultValue;
+                }
+            }
+        }
+
+        return defaultValue;
+
+
+    }
 }
