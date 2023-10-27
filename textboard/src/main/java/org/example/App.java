@@ -9,6 +9,8 @@ public class App {
     static int count;
     Scanner sc;
 
+
+
     App() {
         quotes = new ArrayList<>();
         count = 0;
@@ -21,6 +23,11 @@ public class App {
         while(true) {
             System.out.print("명령) ");
             String cmd = sc.nextLine();
+
+            Rq rq = new Rq(cmd);
+
+            System.out.println("rq.getAction : " + rq.getAction());
+            System.out.println("rq.getParamAsInt" + rq.getParamAsInt("id",0));
 
             if (cmd.equals("종료")) {
                 break;
