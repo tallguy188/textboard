@@ -1,61 +1,55 @@
 package org.example;
-
-import java.util.ArrayList;
-
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Rq {
     String cmd;
     String action;
     String queryString;
 
-    List<String> paramNames;  // paramName들을 저장
-    List<String> paramValues; // paramValue들을 저장
+    Map<String, String> paramsMap;
+
     Rq(String cmd) {
 
-        paramNames = new ArrayList<>();
-
-        paramValues = new ArrayList<>();
+        paramsMap = new HashMap<>();
 
         this.cmd = cmd;
 
-        String[] cmdBits = cmd.split("\\?",2);
+        String[] cmdBits = cmd.split("\\?", 2);
         action = cmdBits[0].trim();
         queryString = cmdBits[1].trim();
         String[] queryStringBits = queryString.split("&");
 
-        for (int i=0; i<queryStringBits.length;i++) {
+        for (int i = 0; i < queryStringBits.length; i++) {
             String queryParamStr = queryStringBits[i];
-            String [] queryParamStrBits = queryParamStr.split("=",2);
+            String[] queryParamStrBits = queryParamStr.split("=", 2);
 
             String paramName = queryParamStrBits[0];
             String paramValue = queryParamStrBits[1];
 
-            paramNames.add(paramName);
-            paramValues.add(paramValue);
+            paramsMap.put(paramName, paramValue); // 맵에 Name과 Value를 저장
         }
     }
+
     String getAction() {
-        return action;
+        return action;  // 삭제, 수정 등 행위 반환
 
     }
 
     public int getParamAsInt(String paramName, int defaultValue) {
 
-        int index = paramNames.indexOf(paramName);  // paramName이 없다면 -1반환
+        String paramValue = paramsMap.get(paramName);
+        // paramName에 일치하는 값이 존재하지 않으면 null을 반환
 
-        if (index == -1) return defaultValue;
 
-        String paramValue = paramValues.get(index);
+        if (paramValue != null) {
+            try {
+                return Integer.parseInt(paramValue);
+            } catch (NumberFormatException e) {
+            }
 
-        try {
 
-            return Integer.parseInt(paramValue);
         }
-        catch(NumberFormatException e) {
-            return defaultValue;
-        }
+    return defaultValue;
     }
-
-
 }
