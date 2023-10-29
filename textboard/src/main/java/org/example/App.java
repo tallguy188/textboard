@@ -22,12 +22,10 @@ public class App {
         System.out.println("== 명언 앱 ==");
         while(true) {
             System.out.print("명령) ");
+
             String cmd = sc.nextLine();
 
             Rq rq = new Rq(cmd);
-
-            System.out.println("rq.getAction : " + rq.getAction());
-            System.out.println("rq.getParamAsInt" + rq.getParamAsInt("id",0));
 
             if (cmd.equals("종료")) {
                 break;
@@ -41,11 +39,11 @@ public class App {
            }
 
            else if (cmd.startsWith("삭제")) {
-               actionDelete(cmd);
+               actionDelete(rq);
            }
 
            else if (cmd.startsWith("수정")) {
-              actionModify(cmd);
+              actionModify(rq);
             }
         }
     }
@@ -72,11 +70,11 @@ public class App {
 
     }
 
-    void actionDelete(String cmd){
+    void actionDelete(Rq rq){
 
         boolean found = false;
 
-        int deleteId = getParamAsInt(cmd,"id",0);
+        int deleteId = rq.getParamAsInt("id",0);
 
         if (deleteId == 0) {
             System.out.println("id를 정확하게 입력해주세요.");
@@ -98,10 +96,11 @@ public class App {
     }
 
 
-    void actionModify(String cmd) {
-        int modifyId = getParamAsInt(cmd,"id",0);
+    void actionModify(Rq rq) {
+        int modifyId = rq.getParamAsInt("id",0);
         if(modifyId == 0) {
             System.out.println("id를 정확하게 입력해주세요.");
+            return;
         }
         Quote quote = null;
         for(Quote q : quotes) {
@@ -125,34 +124,4 @@ public class App {
 
     }
 
-    int getParamAsInt(String cmd, String paramName, int defaultValue){
-
-        String[] cmdBits = cmd.split("\\?",2);
-        String queryString = cmdBits[1];
-
-        String[] queryStringBits = queryString.split("&");
-
-
-        for(int i =0; i<queryStringBits.length;i++){
-            String queryParamStr = queryStringBits[i];
-
-            String [] queryParamStrBits = queryParamStr.split("=",2);
-
-            String _paramName = queryParamStrBits[0];
-            String paramValue = queryParamStrBits[1];
-
-            if (_paramName.equals(paramName)) {
-                try{   // 문제 x
-                    return Integer.parseInt(paramValue);
-                }
-                catch (NumberFormatException e) {  // 문제 O
-                    return defaultValue;
-                }
-            }
-        }
-
-        return defaultValue;
-
-
-    }
 }

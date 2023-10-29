@@ -1,7 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+
 import java.util.List;
 
 public class Rq {
@@ -21,7 +21,7 @@ public class Rq {
 
         String[] cmdBits = cmd.split("\\?",2);
         action = cmdBits[0].trim();
-        queryString = cmdBits[0].trim();
+        queryString = cmdBits[1].trim();
         String[] queryStringBits = queryString.split("&");
 
         for (int i=0; i<queryStringBits.length;i++) {
