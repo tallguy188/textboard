@@ -57,7 +57,7 @@ public class App {
         String author = sc.nextLine();
         Quote quote = new Quote(count,comment,author);
         quotes.add(quote);
-        System.out.println(quote.id +"번 명언이 등록되었습니다.");
+        System.out.println(quote.getId() +"번 명언이 등록되었습니다.");
     }
 
     private void actionList() {
@@ -65,7 +65,7 @@ public class App {
         System.out.println("----------------------");
         for (int i = quotes.size() - 1; i >= 0; i--) {
             Quote quote = quotes.get(i);
-            System.out.println(quote.id + " / " + quote.author + " / " + quote.comment);
+            System.out.println(quote.getId() + " / " + quote.getAuthor() + " / " + quote.getComment());
         }
 
     }
@@ -82,7 +82,7 @@ public class App {
         }
         for (int i = 0; i< quotes.size(); i++) {
             Quote quote = quotes.get(i);
-            if(quote.id == deleteId) {
+            if(quote.getId() == deleteId) {
                 quotes.remove(i);
                 System.out.println(deleteId + "번 명언이 삭제되었습니다.");
                 found = true;
@@ -104,13 +104,13 @@ public class App {
         }
         Quote quote = null;
         for(Quote q : quotes) {
-            if(q.id == modifyId) {
+            if(q.getId() == modifyId) {
                 quote = q;
                 break;
             }
         }
-        String prevComment = quote.comment;
-        String prevAuthor = quote.author;
+        String prevComment = quote.getComment();
+        String prevAuthor = quote.getAuthor();
 
         System.out.println("명언(기존) : " + prevComment);
         System.out.print("명언 : ");
@@ -118,8 +118,8 @@ public class App {
         System.out.println("작가(기존) : " + prevAuthor);
         System.out.print("작가 : ");
         String modiAuthor = sc.nextLine();
-        quote.comment = modiComment;
-        quote.author  = modiAuthor;
+        quote.setComment(modiComment);
+        quote.setAuthor(modiAuthor);
 
 
     }
