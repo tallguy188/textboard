@@ -1,10 +1,10 @@
-package org.example;
+package org.example.domain;
 
 public class Quote {
 
-    int id;
-    String comment;
-    String author;
+    public  int id;
+    public String comment;
+    public String author;
 
     public Quote(int id, String comment, String author) {
         this.id = id;

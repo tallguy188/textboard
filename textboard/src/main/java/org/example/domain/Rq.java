@@ -1,15 +1,17 @@
-package org.example;
+package org.example.domain;
+import org.example.standard.util.Ut;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Rq {
-    String cmd;
-    String action;
-    String queryString;
+    private String cmd;
+    private String action;
+    private String queryString;
 
-    Map<String, String> paramsMap;
+    private Map<String, String> paramsMap;
 
-    Rq(String cmd) {
+    public Rq(String cmd) {
 
         paramsMap = new HashMap<>();
 
@@ -17,6 +19,11 @@ public class Rq {
 
         String[] cmdBits = cmd.split("\\?", 2);
         action = cmdBits[0].trim();
+
+        if (cmdBits.length == 1){
+            return;
+        }
+
         queryString = cmdBits[1].trim();
         String[] queryStringBits = queryString.split("&");
 
@@ -31,25 +38,15 @@ public class Rq {
         }
     }
 
-    String getAction() {
+    public String getAction() {
         return action;  // 삭제, 수정 등 행위 반환
 
     }
 
     public int getParamAsInt(String paramName, int defaultValue) {
 
-        String paramValue = paramsMap.get(paramName);
-        // paramName에 일치하는 값이 존재하지 않으면 null을 반환
+        return Ut.str.parseInt(paramsMap.get(paramName), defaultValue);
 
-
-        if (paramValue != null) {
-            try {
-                return Integer.parseInt(paramValue);
-            } catch (NumberFormatException e) {
-            }
-
-
-        }
-    return defaultValue;
+        // 클래스 안에 내부클래스 str을 만든다.
     }
 }
