@@ -1,4 +1,5 @@
 package org.example.domain;
+import lombok.Getter;
 import org.example.standard.util.Ut;
 
 import java.util.HashMap;
@@ -6,6 +7,8 @@ import java.util.Map;
 
 public class Rq {
     private String cmd;
+
+    @Getter
     private String action;
     private String queryString;
 
@@ -38,10 +41,6 @@ public class Rq {
         }
     }
 
-    public String getAction() {
-        return action;  // 삭제, 수정 등 행위 반환
-
-    }
 
     public int getParamAsInt(String paramName, int defaultValue) {
 
