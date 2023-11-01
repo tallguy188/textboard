@@ -1,64 +1,32 @@
-package org.example.domain;
+package org.example.domain.quotation;
+
+import org.example.base.Rq;
 
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Scanner;
 
-public class App {
-
+public class QuoteController {
     private static ArrayList<Quote> quotes;
     private static int count;
+
     private Scanner sc;
-
-
-
-    public App() {
-        quotes = new ArrayList<>();
+    public QuoteController(Scanner scanner) {
+        this.sc = scanner;
         count = 0;
-        sc = new Scanner(System.in);
+        quotes = new ArrayList<>();
 
         initTestData();
     }
 
-    void initTestData() {
+    private void initTestData() {
         for (int i=0; i<10;i++) {
-           write("명언 " + i,"작가 " + i);
+            write("명언 " + i,"작가 " + i);
 
         }
     }
 
-    public void run() {
 
-        System.out.println("== 명언 앱 ==");
-        while(true) {
-            System.out.print("명령) ");
-
-            String cmd = sc.nextLine();
-
-            Rq rq = new Rq(cmd);
-
-            if (cmd.equals("종료")) {
-                break;
-            }
-           else if( cmd.equals("등록")) {
-
-               actionWrite();
-            }
-           else if(cmd.equals("목록")) {
-                actionList();
-           }
-
-           else if (cmd.startsWith("삭제")) {
-               actionDelete(rq);
-           }
-
-           else if (cmd.startsWith("수정")) {
-              actionModify(rq);
-            }
-        }
-    }
-
-    private void actionWrite() {
+    public void actionWrite() {
 
 
         System.out.print("명언 : ");
@@ -70,7 +38,7 @@ public class App {
         System.out.println(quote.getId() +"번 명언이 등록되었습니다.");
     }
 
-    private void actionList() {
+    public void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
         for (int i = quotes.size() - 1; i >= 0; i--) {
@@ -80,7 +48,7 @@ public class App {
 
     }
 
-    private void actionDelete(Rq rq){
+    public void actionDelete(Rq rq){
 
         boolean found = false;
 
@@ -106,7 +74,7 @@ public class App {
     }
 
 
-    private void actionModify(Rq rq) {
+    public void actionModify(Rq rq) {
         int modifyId = rq.getParamAsInt("id",0);
         if(modifyId == 0) {
             System.out.println("id를 정확하게 입력해주세요.");

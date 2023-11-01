@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.domain.App;
+import org.example.base.App;
 
 public class Main {
     public static void main(String[] args) {
