@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class App {
@@ -15,6 +16,15 @@ public class App {
         quotes = new ArrayList<>();
         count = 0;
         sc = new Scanner(System.in);
+
+        initTestData();
+    }
+
+    void initTestData() {
+        for (int i=0; i<10;i++) {
+           write("명언 " + i,"작가 " + i);
+
+        }
     }
 
     public void run() {
@@ -50,13 +60,13 @@ public class App {
 
     private void actionWrite() {
 
-        count ++;
+
         System.out.print("명언 : ");
         String comment  = sc.nextLine();
         System.out.print("작가 : ");
         String author = sc.nextLine();
-        Quote quote = new Quote(count,comment,author);
-        quotes.add(quote);
+
+        Quote quote = write(comment,author);
         System.out.println(quote.getId() +"번 명언이 등록되었습니다.");
     }
 
@@ -122,6 +132,16 @@ public class App {
         quote.setAuthor(modiAuthor);
 
 
+    }
+
+
+    private Quote write(String comment, String author) {
+        count ++;
+
+        Quote quote = new Quote(count,comment,author);
+        quotes.add(quote);
+
+        return quote;
     }
 
 }
